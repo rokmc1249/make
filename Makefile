@@ -7,9 +7,9 @@ LDFLAGS = -lpthreadVC1
 TARGET = test
 
 # 소스 및 경로
-SRCS = C:\vscode\jenkiss\main.c C:\vscode\jenkiss\sub.c
-INC = C:\vscode\jenkiss\prebuilt-dll-1-10-0-release\include
-LIB = C:\vscode\jenkiss\prebuilt-dll-1-10-0-release\lib
+SRCS = main.c sub.c
+INC = prebuilt-dll-1-10-0-release\include
+LIB = prebuilt-dll-1-10-0-release\lib
 
 # 객체 파일 목록
 OBJS = $(SRCS:.c=.o)

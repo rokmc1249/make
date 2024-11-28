@@ -19,6 +19,14 @@ int main() {
     for (int i = -1; i <= 6; i++) {
         str[i] = i + 1;
     }
+
+    int* p = malloc(4);
+    if (p == NULL) {
+        return 0;
+    }
+    *p = 13;
+    printf("%d\n", *p);
+
     pthread_t threads[2];
     int thread_ids[2] = { 1, 2 }; // 스레드 식별 번호
 

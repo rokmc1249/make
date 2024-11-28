@@ -107,10 +107,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\vscode\jenkiss\prebuilt-dll-1-10-0-release\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\vscode\jenkiss\prebuilt-dll-1-10-0-release\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>pthreadVC1.lib;pthreadVSE1.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -132,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="main.c">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\vscode\jenkiss\prebuilt-dll-1-10-0-release\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\vscode\jenkiss\prebuilt-dll-1-10-0-release\include</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="sub.c" />
   </ItemGroup>
