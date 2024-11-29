@@ -10,11 +10,17 @@
 
 
 extern int test(int a, int b);
-void connection();
+//void connection();
 void* threadRoutine(void* argumentPointer);
+int* return_pointer_free(int* f_p);
 
 int main() {
-	connection();
+	//connection();
+    int* j = malloc(4);
+    
+    int* delivery = return_pointer_free(j);
+    
+    
     int str[6] = { 0 };
     for (int i = -1; i <= 6; i++) {
         str[i] = i + 1;
@@ -25,21 +31,11 @@ int main() {
         return 0;
     }
     *p = 13;
+    free(p);
     printf("%d\n", *p);
+    
 
-    pthread_t threads[2];
-    int thread_ids[2] = { 1, 2 }; // 스레드 식별 번호
-
-    for (int i = 0; i < 2; i++) {
-        pthread_create(&threads[i], NULL, threadRoutine, &thread_ids[i]);
-    }
-
-    for (int i = 0; i < 2; i++) {
-        pthread_join(threads[i], NULL);
-    }
-
-    return 0;
-    /*
+   
    
 
     pthread_t threadID;
@@ -55,7 +51,7 @@ int main() {
 
     printf("Main Thread finish waitng Child Thread!\n");
 
-	return 0;*/
+	return 0;
 }
 void connection() {
 	int result = test(5, 19);
@@ -65,6 +61,13 @@ void* threadRoutine(void* arg) {
     int thread_num = *(int*)arg; // 전달받은 스레드 번호
     printf("Thread number: %d\n", thread_num);
     return NULL;
+}
+
+int* return_pointer_free(int* f_p) {
+    *f_p = 13;
+    free(f_p);
+    free(f_p);
+   return f_p;
 }
 
 /*void* threadRoutine(void* argumentPointer)

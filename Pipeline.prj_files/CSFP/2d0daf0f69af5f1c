@@ -1,0 +1,198 @@
+/*
+ *      Copyright (c) 2023, an unpublished work by CodeSecure, Inc.
+ *                      ALL RIGHTS RESERVED
+ *
+ *      Copyright (c) 1999-2023, an unpublished work by GrammaTech, Inc.
+ *                      ALL RIGHTS RESERVED
+ *
+ *      This software is furnished under a license and may be used and
+ *      copied only in accordance with the terms of such license and the
+ *      inclusion of the above copyright notice.  This software or any
+ *      other copies thereof may not be provided or otherwise made
+ *      available to any other person.  Title to and ownership of the
+ *      software is retained by CodeSecure, Inc.
+ */
+
+/* Include the normal stdio.h */
+#include_next <stdio.h>
+
+#include "./cs_common.h"
+
+#ifdef __BORLANDC__
+#define CSURF_STDIO_H
+#endif
+
+/* Make the overrides that are necessary for modeling I/O */
+#ifndef CSURF_STDIO_H
+#if !defined __need_FILE && !defined __need___FILE
+# define CSURF_STDIO_H  1
+#endif /* !defined __need_FILE && !defined __need___FILE */
+
+/* ************************************************************
+   Handle known compiler/version specific problems here. 
+
+   Unless you know the problem exists for all versions before
+   a certain version or will exist for all versions after
+   a certain version (in the near future), you should special
+   case only that version
+   ************************************************************ */
+    
+/* Some C library functions have no exception specification in glibc
+ * 2.3. g++ 2.95.4 and g++ 3.0.4 complains if we declare them with
+ * exception here.  Those functions can be found in
+ * /usr/include/stdio.h */
+#if defined(__GNUG__) && defined (__GLIBC__)
+#if ((__GNUC__== 2 && __GNUC_MINOR__ >= 95) || \
+     (__GNUC__== 3 && __GNUC_MINOR__ == 0)) \
+    && __GLIBC__==2 && __GLIBC_MINOR__ == 3
+# define __CSURF_THROW_GLIBC_2_3
+#endif /* __GNUC__== 2 && __GNUC_MINOR__==95 ... */
+#endif /* defined(__GNUG__) && defined (__GLIBC__) */
+
+/* **************************************************
+   Default value for flags
+   ************************************************** */
+#ifndef __CSURF_THROW_GLIBC_2_3
+#  define __CSURF_THROW_GLIBC_2_3 __CSURF_THROW
+#endif /* __CSURF_THROW_GLIBC_2_3 */
+
+/* **********************************************************
+ * NOTE FOR USERS:
+ *
+ *  If your code defines any of the macros below instead of getting
+ *  them from the system headers, you may get compliation errors. To
+ *  workaournd the compilation error, you can remove the specific
+ *  macro that's causing the problem.
+ *
+ *  However, if you do this, calls to these functions will not be
+ *  hooked up to our library models. This may affect result of 
+ *  certain analysis.
+ *
+ * ************************************************************/
+
+#if ( defined(__QNX__) || defined(__CC_ARM) || defined(__TI_COMPILER_VERSION__) ) && defined(__cplusplus)
+/* Certain compilers, like QNX QCC, dont define FILE in c++ mode. */
+#else
+
+#if defined(stdin) 
+#hard_undef stdin
+__CSURF_EXTERN_C FILE *stdin;
+#endif
+
+#if defined(stdout) 
+#hard_undef stdout
+__CSURF_EXTERN_C FILE *stdout;
+#endif
+
+#if defined(stderr) 
+#hard_undef stderr
+__CSURF_EXTERN_C FILE *stderr;
+#endif
+
+#endif
+
+#if defined(getc) 
+#hard_undef getc
+#if __CCRX__
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+long __CSURF_INCLUDE_CALLING_CONVENTION getc(FILE *stream) __CSURF_THROW_GLIBC_2_3;
+#else
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+int __CSURF_INCLUDE_CALLING_CONVENTION getc(FILE *stream) __CSURF_THROW_GLIBC_2_3;
+#endif //CCRX
+#endif
+
+#if defined(getc_unlocked) 
+#hard_undef getc_unlocked
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+int getc_unlocked(FILE *stream) __CSURF_THROW_GLIBC_2_3;
+#endif
+
+#ifdef getchar
+#hard_undef getchar
+#if __CCRX__
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+long __CSURF_INCLUDE_CALLING_CONVENTION getchar(void) __CSURF_THROW_GLIBC_2_3;
+#else
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+int __CSURF_INCLUDE_CALLING_CONVENTION getchar(void) __CSURF_THROW_GLIBC_2_3;
+#endif //CCRX
+#endif
+
+#ifdef getchar_unlocked
+#hard_undef getchar_unlocked
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+int getchar_unlocked(void) __CSURF_THROW_GLIBC_2_3;
+#endif
+
+#if defined(putc) 
+#hard_undef putc
+#if __CCRX__
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+long __CSURF_INCLUDE_CALLING_CONVENTION putc(long c, FILE *stream) __CSURF_THROW_GLIBC_2_3;
+#else
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+int __CSURF_INCLUDE_CALLING_CONVENTION putc(int c, FILE *stream) __CSURF_THROW_GLIBC_2_3;
+#endif //CCRX
+#endif
+
+#if defined(putc_unlocked) 
+#hard_undef putc_unlocked
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+int putc_unlocked(int c, FILE *stream) __CSURF_THROW_GLIBC_2_3;
+#endif
+
+#ifdef putchar
+#hard_undef putchar
+#if __CCRX__
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+long __CSURF_INCLUDE_CALLING_CONVENTION putchar(long c) __CSURF_THROW_GLIBC_2_3;
+#else
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+int __CSURF_INCLUDE_CALLING_CONVENTION putchar(int c) __CSURF_THROW_GLIBC_2_3;
+#endif //CCRX
+#endif
+
+#ifdef putchar_unlocked
+#hard_undef putchar_unlocked
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+int putchar_unlocked(int c) __CSURF_THROW_GLIBC_2_3;
+#endif
+
+#ifdef _fgetc_nolock
+#hard_undef _fgetc_nolock
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+int __CSURF_INCLUDE_CALLING_CONVENTION _fgetc_nolock(FILE *stream);
+#endif 
+
+#ifdef _fputc_nolock
+#hard_undef _fputc_nolock
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+int __CSURF_INCLUDE_CALLING_CONVENTION _fputc_nolock(int c, FILE *stream);
+#endif
+
+#ifdef feof
+#hard_undef feof
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+int __CSURF_INCLUDE_CALLING_CONVENTION feof(FILE *stream);
+#endif
+
+#ifdef ferror
+#hard_undef ferror
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+int __CSURF_INCLUDE_CALLING_CONVENTION ferror(FILE *stream);
+#endif
+
+#ifdef _fileno
+#hard_undef _fileno
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+int __CSURF_INCLUDE_CALLING_CONVENTION _fileno(FILE *stream);
+#endif
+
+#ifdef fgetc
+#hard_undef fgetc
+__CSURF_EXTERN_C __CSURF_IGNORE_DUP_DECL
+int __CSURF_INCLUDE_CALLING_CONVENTION fgetc(FILE *stream);
+#endif
+                
+#endif /* CSURF_STDIO_H */
