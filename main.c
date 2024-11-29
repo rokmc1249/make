@@ -10,12 +10,12 @@
 
 
 extern int test(int a, int b);
-//void connection();
+void connection();
 void* threadRoutine(void* argumentPointer);
 int* return_pointer_free(int* f_p);
 
 int main() {
-	//connection();
+	connection();
     int* j = malloc(4);
     
     int* delivery = return_pointer_free(j);
